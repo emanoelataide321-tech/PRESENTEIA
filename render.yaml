@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: presenteia
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: presenteia-db
+          property: connectionString
+      - key: DATABASE_SSL
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: "Presenteia Admin"
+      - key: CORS_ORIGINS
+        value: ""
+
+databases:
+  - name: presenteia-db
+    databaseName: presenteia
+    user: presenteia
+    plan: free
